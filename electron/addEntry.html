@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Add Entry</title>
+    <style>
+      body { font-family: Arial, Helvetica, sans-serif; padding: 16px; }
+      label { display:block; margin-top:8px }
+      input { width: 100%; padding:8px; box-sizing: border-box }
+      button { margin-top:12px; padding:8px 12px }
+    </style>
+  </head>
+  <body>
+    <h2>Add Entry</h2>
+    <form id="entryForm">
+      <label>First Name<input id="first" required /></label>
+      <label>Middle Name<input id="middle" /></label>
+      <label>Last Name<input id="last" required /></label>
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      const form = document.getElementById('entryForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+          first: document.getElementById('first').value,
+          middle: document.getElementById('middle').value,
+          last: document.getElementById('last').value
+        };
+        try {
+          const resp = await window.electronAPI.submitEntry(data);
+          alert('Submitted: ' + JSON.stringify(resp));
+          window.close();
+        } catch (err) {
+          alert('Error: ' + err);
+        }
+      });
+    </script>
+  </body>
+</html>
